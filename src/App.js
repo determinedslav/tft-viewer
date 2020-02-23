@@ -11,7 +11,9 @@ import thunk from "redux-thunk";
 
 import './assets/styles.scss';
 import Home from './pages/Home';
-import Test from './pages/Test';
+import User from './pages/User';
+import Match from './pages/Match';
+import Details from './pages/Details';
 import Navbar from './components/Navbar';
 
 const store = createStore(reducers, applyMiddleware(thunk));
@@ -43,9 +45,19 @@ function App() {
                 <Home/>
               </Layout>
             </Route>
-            <Route path="/test">
+            <Route path="/user">
               <Layout>
-                <Test/>
+                <User/>
+              </Layout>
+            </Route>
+            <Route path="/match">
+              <Layout>
+                <Match/>
+              </Layout>
+            </Route>
+            <Route path="/details">
+              <Layout>
+                <Details/>
               </Layout>
             </Route>
           </Switch>

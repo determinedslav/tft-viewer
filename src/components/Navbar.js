@@ -31,9 +31,23 @@ const HeaderNavbar = (props) => {
                 <NavItem>
                     <NavLink 
                      tag={RRNavLink} 
-                     to="/test" 
+                     to="/user" 
                      activeClassName="active"
-                    >Test</NavLink>
+                    >Player Statistics</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink 
+                     tag={RRNavLink} 
+                     to="/match" 
+                     activeClassName="active"
+                    >Match History</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink 
+                     tag={RRNavLink} 
+                     to="/details" 
+                     activeClassName="active"
+                    >Match Detais</NavLink>
                 </NavItem>
             </Nav>
             </Collapse>
