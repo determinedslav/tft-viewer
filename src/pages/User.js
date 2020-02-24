@@ -1,27 +1,56 @@
 import React from 'react';
-//import { useSelector, useDispatch} from "react-redux";
-//import { connect }  from "react-redux";
+import { connect }  from "react-redux";
 import PlayerCard from '../components/PlayerCard'
 
-const User = props => {
+class User extends React.Component {
+    componentDidMount = () => {
+        this.props.getMovies();
+    }
 
-    return (
-        <div>
+    render() {
+        return <>
             <div>
-                <PlayerCard name = "BlackHeart10" region = "EUNE" tier = "GOLD" rank = "II"></PlayerCard>
+                <div>
+                    <PlayerCard name = "BlackHeart10" region = "EUNE" tier = "GOLD" rank = "II"></PlayerCard>
+                </div>
+                <button onClick = {() => this.props.setTitle("Just work")}>Press</button>
             </div>
-            <button onClick = {() => isPressed()}>Press</button>
-        </div>
-    );
+        </>
+    }
 }
 
-const isPressed = () => {
-
-        return fetch('https://eun1.api.riotgames.com/tft/summoner/v1/summoners/by-name/blackheart10?api_key=RGAPI-b3359980-1dd7-4109-a433-212cfbf31ade')
+function getGlobalMovies() {
+    return dispatch => {
+        return fetch('https://facebook.github.io/react-native/movies.json')
             .then(response => response.json())
-            .then(data => console.log(data.name))
+            .then(responseJson => {
+                dispatch({
+                    type: "FETCHED_MOVIES",
+                    payload: responseJson.movies
+                });
+                dispatch({
+                    type: "SET_TITLE", 
+                    payload: responseJson.title
+                });
+            })
             .catch(error => {
                 console.error(error);
             });
+    };
+  }
+
+
+const mapStateToProps = state => {
+    return { 
+        movies: state.movies,
+        title: state.title
+    }
+};
+const mapStateToDispatch = dispatch => {
+    return {
+        getMovies: () => dispatch(getGlobalMovies()),
+        setTitle: () => dispatch(getGlobalMovies()),
+    }
 }
-export default User;
+
+export default connect(mapStateToProps, mapStateToDispatch)(User);

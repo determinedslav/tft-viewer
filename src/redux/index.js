@@ -1,7 +1,6 @@
 
 import { combineReducers } from 'redux'
 
-/*
 const counter = function(count = 1, action) {
     switch(action.type) {
         case "INCREMENT_COUNT": {
@@ -12,34 +11,31 @@ const counter = function(count = 1, action) {
         
     }
 }
-*/
-const name = function(name = "Player Name", action) {
+
+const title = function(title = "Default Title", action) {
     switch(action.type) {
-        case "SET_NAME": {
+        case "SET_TITLE": {
             return action.payload;
         }
         default:
-            return name;
+            return title;
         
     }
 }
 
-const player = function(player = {}, action) {
+const movies = function(movies = [], action) {
     switch(action.type) {
-        case "FETCHED_PLAYER": {
-            return action.payload;
+        case "FETCHED_MOVIES": {
+            return [...action.payload];
         }
         default:
-            return player;
+            return movies;
         
     }
 }
 
 export default combineReducers({
-    /*
     counterOne: counter,
-    */
-    player,
-    name
-  
+    movies,
+    title
 })
