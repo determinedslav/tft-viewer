@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect }  from "react-redux";
 
+import API from '../constants/API'
+
 class Home extends React.Component {
     render() {
         return <>
@@ -14,10 +16,10 @@ class Home extends React.Component {
                 <div className="bg-white border-left border-right">
                     <div className="row p-2">
                         <div className="col-md-8">
-                            <input type="text" className="form-control mt-2" id="user" placeholder="Username" onChange={e => this.props.setRegion(e.target.value)} required/>
+                            <input type="text" className="form-control mt-2" id="user" placeholder="Username" onChange={e => setInputName(e.target.value)} required/>
                         </div>
                         <div className="col-md-4">
-                        <select id="selectRegion" defaultValue = "0" className="form-control mt-2" onChange={e => this.props.setRegion(e.target.value)} required>
+                        <select id="selectRegion" defaultValue = "0" className="form-control mt-2" onChange={e => setInputRegion(e.target.value)} required>
                             <option value="0" disabled>Select region</option>
                             <option value="eun1">EU Nordic and East</option>
                             <option value="euw1">EU West</option>
@@ -33,7 +35,7 @@ class Home extends React.Component {
                             </div>
                         </div>           
                         <div className="col-md-3 text-right">
-                            <button className="btn btn-primary"><i className="fa fa-search mr-1" onClick = {() => this.props.getPlayer()}></i>Search</button>
+                            <button className="btn btn-primary" onClick = {() => this.props.getPlayer()}><i className="fa fa-search mr-1"></i>Search</button>
                         </div>
                     </div>
                 </div>
@@ -43,9 +45,28 @@ class Home extends React.Component {
     }
 }
 
-function getGlobalMovies() {
+var inputName = " ";
+var inputRegion = " ";
+
+const setInputName = input => {
+    inputName = input;
+    console.log(inputName);
+}
+
+const setInputRegion = input => {
+    inputRegion = input
+    console.log(inputRegion);
+}
+
+const getPlayerAPI = () => {
     return dispatch => {
-        return fetch('https://eun1.api.riotgames.com/tft/summoner/v1/summoners/by-name/blackheart10?api_key=RGAPI-7446e2dc-e671-4002-8e13-a1aacae2a753')
+        return fetch(API.protocol 
+            + inputRegion 
+            + API.apiLink 
+            + API.nameApi 
+            + inputName 
+            + API.key 
+            + API.keyValue)
             .then(response => response.json())
             .then(responseJson => {
                 dispatch({
@@ -68,7 +89,7 @@ const mapStateToProps = state => {
 };
 const mapStateToDispatch = dispatch => {
     return {
-        getPlayer: () => dispatch(getGlobalMovies()),
+        getPlayer: () => dispatch(getPlayerAPI()),
         setRegion: region => dispatch({
             type: "SET_REGION", 
             payload: region

@@ -21,7 +21,7 @@ class User extends React.Component {
 
 function getGlobalMovies() {
     return dispatch => {
-        return fetch('https://eun1.api.riotgames.com/tft/summoner/v1/summoners/by-name/blackheart10?api_key=RGAPI-7446e2dc-e671-4002-8e13-a1aacae2a753')
+        return fetch('https://eun1.api.riotgames.com/tft/summoner/v1/summoners/by-name/BlackHeart10?api_key=RGAPI-7446e2dc-e671-4002-8e13-a1aacae2a753')
             .then(response => response.json())
             .then(responseJson => {
                 dispatch({
