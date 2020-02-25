@@ -50,12 +50,10 @@ var inputRegion = " ";
 
 const setInputName = input => {
     inputName = input;
-    console.log(inputName);
 }
 
 const setInputRegion = input => {
     inputRegion = input
-    console.log(inputRegion);
 }
 
 const getPlayerAPI = () => {
@@ -74,11 +72,17 @@ const getPlayerAPI = () => {
                     payload: responseJson
                 });
             })
+            .then(() => {
+                dispatch({
+                    type: "SET_REGION", 
+                    payload: inputRegion
+                });
+            })
             .catch(error => {
                 console.error(error);
             });
     };
-  }
+}
 
 
 const mapStateToProps = state => {
