@@ -12,30 +12,30 @@ const counter = function(count = 1, action) {
     }
 }
 
-const title = function(title = "Default Title", action) {
+const region = function(region = "Default Title", action) {
     switch(action.type) {
-        case "SET_TITLE": {
+        case "SET_REGION": {
             return action.payload;
         }
         default:
-            return title;
+            return region;
         
     }
 }
 
-const movies = function(movies = [], action) {
+const player = function(player = {}, action) {
     switch(action.type) {
-        case "FETCHED_MOVIES": {
-            return [...action.payload];
+        case "FETCHED_PLAYER": {
+            return action.payload;
         }
         default:
-            return movies;
+            return player;
         
     }
 }
 
 export default combineReducers({
     counterOne: counter,
-    movies,
-    title
+    player,
+    region
 })

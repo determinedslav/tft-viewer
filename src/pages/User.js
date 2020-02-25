@@ -21,16 +21,16 @@ class User extends React.Component {
 
 function getGlobalMovies() {
     return dispatch => {
-        return fetch('https://facebook.github.io/react-native/movies.json')
+        return fetch('https://eun1.api.riotgames.com/tft/summoner/v1/summoners/by-name/blackheart10?api_key=RGAPI-b3359980-1dd7-4109-a433-212cfbf31ade')
             .then(response => response.json())
             .then(responseJson => {
                 dispatch({
-                    type: "FETCHED_MOVIES",
-                    payload: responseJson.movies
+                    type: "FETCHED_PLAYER",
+                    payload: responseJson
                 });
                 dispatch({
-                    type: "SET_TITLE", 
-                    payload: responseJson.title
+                    type: "SET_REGION", 
+                    payload: responseJson.name
                 });
             })
             .catch(error => {
@@ -42,8 +42,8 @@ function getGlobalMovies() {
 
 const mapStateToProps = state => {
     return { 
-        movies: state.movies,
-        title: state.title
+        player: state.player,
+        region: state.region
     }
 };
 const mapStateToDispatch = dispatch => {
