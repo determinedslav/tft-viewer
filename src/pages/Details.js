@@ -4,11 +4,12 @@ import { useSelector, useDispatch } from "react-redux";
 
 const Details = props => {
     const player = useSelector(state => state.player);
+    const region = useSelector(state => state.region);
     //const dispatch = useDispatch();
 
     //const setCounter = count => dispatch(setActionCount(count))
     return <div>
-        <h1>{player.summonerLevel}</h1>
+        <h1>{player.summonerLevel}#{region}</h1>
         <button
             onClick={() => console.log('20')} 
             type="button" 

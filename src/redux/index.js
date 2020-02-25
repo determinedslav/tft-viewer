@@ -12,7 +12,7 @@ const counter = function(count = 1, action) {
     }
 }
 
-const region = function(region = "Default Title", action) {
+const region = function(region = "Default Region", action) {
     switch(action.type) {
         case "SET_REGION": {
             return action.payload;

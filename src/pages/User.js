@@ -13,7 +13,7 @@ class User extends React.Component {
                 <div>
                     <PlayerCard name = "BlackHeart10" region = "EUNE" tier = "GOLD" rank = "II"></PlayerCard>
                 </div>
-                <button onClick = {() => this.props.setTitle("Just work")}>Press</button>
+                <button onClick = {() => this.props.setTitle("EUNE")}>Press</button>
             </div>
         </>
     }
@@ -21,16 +21,12 @@ class User extends React.Component {
 
 function getGlobalMovies() {
     return dispatch => {
-        return fetch('https://eun1.api.riotgames.com/tft/summoner/v1/summoners/by-name/blackheart10?api_key=RGAPI-b3359980-1dd7-4109-a433-212cfbf31ade')
+        return fetch('https://eun1.api.riotgames.com/tft/summoner/v1/summoners/by-name/blackheart10?api_key=RGAPI-7446e2dc-e671-4002-8e13-a1aacae2a753')
             .then(response => response.json())
             .then(responseJson => {
                 dispatch({
                     type: "FETCHED_PLAYER",
                     payload: responseJson
-                });
-                dispatch({
-                    type: "SET_REGION", 
-                    payload: responseJson.name
                 });
             })
             .catch(error => {
@@ -49,7 +45,10 @@ const mapStateToProps = state => {
 const mapStateToDispatch = dispatch => {
     return {
         getMovies: () => dispatch(getGlobalMovies()),
-        setTitle: () => dispatch(getGlobalMovies()),
+        setTitle: region => dispatch({
+            type: "SET_REGION", 
+            payload: region
+        })
     }
 }
 
