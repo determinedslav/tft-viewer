@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {useSelector, useDispatch} from "react-redux";
+import {useDispatch} from "react-redux";
 import {setStats} from '../redux/actions/stats';
+import {setPlayer} from '../redux/actions/player';
 import API from '../constants/API'
 import Remote from '../remote';
 
@@ -33,34 +34,42 @@ const Home = () => {
         } else if (name.length < 4 || name.length > 16) {
             setErrorMessage("Summoner names are between 4 and 16 symbols long");
         } else {
-            getStats();
+            getResponse();
         }
     }
 
-    const getStats = async () => {
+    const getResponse = async () => {
         setErrorMessage(" ");
         try{
             const responseName = await Remote.get(API.protocol + region + API.apiLink + API.nameApi + name + API.key + API.keyValue);
             if(responseName && responseName.hasOwnProperty('data')){
+                const newPlayer =  {
+                        region: regionFull,
+                        name: responseName.data.name,
+                        level: responseName.data.summonerLevel,
+                    }
+                console.log(newPlayer);
+                dispatch(setPlayer(newPlayer));    
                 setTimeout(() =>{},1000);
                 const responseStats = await Remote.get(API.protocol + region + API.apiLink + API.statsApi + responseName.data.id + API.key + API.keyValue);
                     if(responseStats && responseStats.hasOwnProperty('data')){
-                        const newCardItem = responseStats.data.map(item=>{
+                        const newStats = responseStats.data.map(item=>{
                             return {
                                 region: regionFull,
                                 name: item.summonerName,
                                 rank: item.tier,
                                 division: item.rank,
                                 wins: item.wins,
+                                loses: item.losses,
+                                played: item.wins + item.losses,
                                 lp: item.leaguePoints,
                             }
                         });
-                        setTimeout(() =>{
-                            if (responseStats.data.length === 0) {
-                                setErrorMessage("No TFT information available for this player");
-                            }
-                            dispatch(setStats(newCardItem));               
-                        },1000);
+                        if (responseStats.data.length === 0) {
+                            setErrorMessage("No TFT information available for this player");
+                        }
+                        console.log(newStats);
+                        dispatch(setStats(newStats));               
                     } 
                 } 
         } catch (error) {
