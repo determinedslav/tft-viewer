@@ -1,55 +1,45 @@
-import React from 'react';
-import { connect }  from "react-redux";
+import React, {useEffect } from 'react';
+import {useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import PlayerCard from '../components/PlayerCard'
+import {setLoading} from '../redux/actions/loading';
 
-class User extends React.Component {
-    componentDidMount = () => {
-        this.props.getMovies();
+const User = props => {
+    const stats = useSelector(state => state.stats[0]);
+    const player = useSelector(state => state.player);
+    const isLoading = useSelector(state => state.loading);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(setLoading(true));
+        console.log("loading");
+        setTimeout(() =>{           
+            dispatch(setLoading(false));
+            console.log("done loading");
+        },2000);
+        // eslint-disable-next-line
+      }, []);
+
+    const click = () => {
+        dispatch(setLoading(true));
+        console.log("loading");
+        setTimeout(() =>{           
+            dispatch(setLoading(false));
+            console.log("done loading");
+        },2000);
     }
 
-    render() {
-        return <>
-            <div>
-                <div>
-                    <PlayerCard name = "BlackHeart10" region = "EUNE" tier = "GOLD" rank = "II"></PlayerCard>
-                </div>
-                <button onClick = {() => this.props.setTitle("EUNE")}>Press</button>
-            </div>
-        </>
-    }
+    return <div>
+        {isLoading ? <div>Currently loading</div> :
+            <PlayerCard name={player.name} 
+            region={player.region} 
+            level={player.level} 
+            rank={stats.rank} 
+            division={stats.division}
+            onClick={() => click()}></PlayerCard>
+            }
+    </div>
 }
 
-function getGlobalMovies() {
-    return dispatch => {
-        return fetch('https://eun1.api.riotgames.com/tft/summoner/v1/summoners/by-name/BlackHeart10?api_key=RGAPI-7446e2dc-e671-4002-8e13-a1aacae2a753')
-            .then(response => response.json())
-            .then(responseJson => {
-                dispatch({
-                    type: "FETCHED_PLAYER",
-                    payload: responseJson
-                });
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    };
-  }
-
-
-const mapStateToProps = state => {
-    return { 
-        player: state.player,
-        region: state.region
-    }
-};
-const mapStateToDispatch = dispatch => {
-    return {
-        getMovies: () => dispatch(getGlobalMovies()),
-        setTitle: region => dispatch({
-            type: "SET_REGION", 
-            payload: region
-        })
-    }
-}
-
-export default connect(mapStateToProps, mapStateToDispatch)(User);
+export default User;

@@ -18,10 +18,10 @@ const Home = () => {
         setRegion(value);
         switch(value) {
             case 'eun1':
-                setRegionFull('EU Nordic and East');
+                setRegionFull('EUNE');
                 break;
             case 'euw1':
-                setRegionFull('EU West');
+                setRegionFull('EUW');
                 break;
             default:
               return 'Error';
@@ -57,8 +57,6 @@ const Home = () => {
                     if(responseStats && responseStats.hasOwnProperty('data')){
                         const newStats = responseStats.data.map(item=>{
                             return {
-                                region: regionFull,
-                                name: item.summonerName,
                                 rank: item.tier,
                                 division: item.rank,
                                 wins: item.wins,
