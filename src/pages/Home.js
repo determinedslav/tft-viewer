@@ -47,6 +47,8 @@ const Home = () => {
                         region: regionFull,
                         name: responseName.data.name,
                         level: responseName.data.summonerLevel,
+                        id: responseName.data.id,
+                        puuid: responseName.data.puuid,
                     }
                 console.log(newPlayer);
                 dispatch(setPlayer(newPlayer));    
