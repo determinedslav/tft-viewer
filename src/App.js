@@ -1,5 +1,5 @@
 import React from 'react';
-import reducers from "./redux/index";
+import reducers from "./redux/reducers/index";
 import { Provider } from "react-redux";
 import {
   BrowserRouter as Router,

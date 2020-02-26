@@ -1,11 +1,75 @@
-import React from 'react';
-import { connect }  from "react-redux";
-
+import React, {useState} from 'react';
+import {useSelector, useDispatch} from "react-redux";
+import {setStats} from '../redux/actions/stats';
 import API from '../constants/API'
+import Remote from '../remote';
 
-class Home extends React.Component {
-    render() {
-        return <>
+const Home = () => {    
+
+    const [region, setRegion] = useState(' ');
+    const [regionFull, setRegionFull] = useState(' ');
+    const [name, setName] = useState(' ');
+    const [errorMessage, setErrorMessage] = useState(' ');
+
+    const dispatch = useDispatch();
+
+    const setRegionState = (value) => {
+        setRegion(value);
+        switch(value) {
+            case 'eun1':
+                setRegionFull('EU Nordic and East');
+                break;
+            case 'euw1':
+                setRegionFull('EU West');
+                break;
+            default:
+              return 'Error';
+          }
+    };
+    
+    const validate = () => {
+        if (name === ' ' || region === ' ') {
+            return;
+        } else if (name.length < 4 || name.length > 16) {
+            setErrorMessage("Summoner names are between 4 and 16 symbols long");
+        } else {
+            getStats();
+        }
+    }
+
+    const getStats = async () => {
+        setErrorMessage(" ");
+        try{
+            const responseName = await Remote.get(API.protocol + region + API.apiLink + API.nameApi + name + API.key + API.keyValue);
+            if(responseName && responseName.hasOwnProperty('data')){
+                setTimeout(() =>{},1000);
+                const responseStats = await Remote.get(API.protocol + region + API.apiLink + API.statsApi + responseName.data.id + API.key + API.keyValue);
+                    if(responseStats && responseStats.hasOwnProperty('data')){
+                        const newCardItem = responseStats.data.map(item=>{
+                            return {
+                                region: regionFull,
+                                name: item.summonerName,
+                                rank: item.tier,
+                                division: item.rank,
+                                wins: item.wins,
+                                lp: item.leaguePoints,
+                            }
+                        });
+                        setTimeout(() =>{
+                            if (responseStats.data.length === 0) {
+                                setErrorMessage("No TFT information available for this player");
+                            }
+                            dispatch(setStats(newCardItem));               
+                        },1000);
+                    } 
+                } 
+        } catch (error) {
+            console.log(error);
+            setErrorMessage("Failed to get stats");
+        } 
+    };
+
+    return ( 
         <div>
             <form id="searchUser" onSubmit={(e) => e.preventDefault()}>
                 <div className="bg-light border rounded-top">
@@ -16,10 +80,10 @@ class Home extends React.Component {
                 <div className="bg-white border-left border-right">
                     <div className="row p-2">
                         <div className="col-md-8">
-                            <input type="text" className="form-control mt-2" id="user" placeholder="Username" onChange={e => setInputName(e.target.value)} required/>
+                            <input type="text" className="form-control mt-2" id="user" placeholder="Username" onChange={e => setName(e.target.value)} required/>
                         </div>
                         <div className="col-md-4">
-                        <select id="selectRegion" defaultValue = "0" className="form-control mt-2" onChange={e => setInputRegion(e.target.value)} required>
+                        <select id="selectRegion" defaultValue = "0" className="form-control mt-2" onChange={e => setRegionState(e.target.value)} required>
                             <option value="0" disabled>Select region</option>
                             <option value="eun1">EU Nordic and East</option>
                             <option value="euw1">EU West</option>
@@ -31,74 +95,17 @@ class Home extends React.Component {
                     <div className="row p-2">
                         <div className="col-md-9">
                             <div className="p-1 m-1 text-danger small" id="errMessage">
-                                &nbsp; I am error
+                                {errorMessage}
                             </div>
                         </div>           
                         <div className="col-md-3 text-right">
-                            <button className="btn btn-primary" onClick = {() => this.props.getPlayer()}><i className="fa fa-search mr-1"></i>Search</button>
+                            <button className="btn btn-primary" onClick = {() => validate()}><i className="fa fa-search mr-1"></i>Search</button>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
-        </>
-    }
+    )
 }
 
-var inputName = " ";
-var inputRegion = " ";
-
-const setInputName = input => {
-    inputName = input;
-}
-
-const setInputRegion = input => {
-    inputRegion = input
-}
-
-const getPlayerAPI = () => {
-    return dispatch => {
-        return fetch(API.protocol 
-            + inputRegion 
-            + API.apiLink 
-            + API.nameApi 
-            + inputName 
-            + API.key 
-            + API.keyValue)
-            .then(response => response.json())
-            .then(responseJson => {
-                dispatch({
-                    type: "FETCHED_PLAYER",
-                    payload: responseJson
-                });
-            })
-            .then(() => {
-                dispatch({
-                    type: "SET_REGION", 
-                    payload: inputRegion
-                });
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    };
-}
-
-
-const mapStateToProps = state => {
-    return { 
-        player: state.player,
-        region: state.region
-    }
-};
-const mapStateToDispatch = dispatch => {
-    return {
-        getPlayer: () => dispatch(getPlayerAPI()),
-        setRegion: region => dispatch({
-            type: "SET_REGION", 
-            payload: region
-        })
-    }
-}
-
-export default connect(mapStateToProps, mapStateToDispatch)(Home);
+export default Home;
