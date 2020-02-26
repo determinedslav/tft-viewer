@@ -1,6 +1,5 @@
 import React, {useEffect } from 'react';
-import {useSelector} from "react-redux";
-import {useDispatch} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import PlayerCard from '../components/PlayerCard'
 import {setLoading} from '../redux/actions/loading';
 
@@ -11,6 +10,7 @@ const User = props => {
 
     const dispatch = useDispatch();
 
+    /*
     useEffect(() => {
         dispatch(setLoading(true));
         console.log("loading");
@@ -20,7 +20,7 @@ const User = props => {
         },2000);
         // eslint-disable-next-line
       }, []);
-
+      */
     const click = () => {
         dispatch(setLoading(true));
         console.log("loading");

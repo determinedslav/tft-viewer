@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useDispatch} from "react-redux";
 import {setStats} from '../redux/actions/stats';
 import {setPlayer} from '../redux/actions/player';
+import {setLoading} from '../redux/actions/loading';
 import API from '../constants/API'
 import Remote from '../remote';
 
@@ -69,7 +70,8 @@ const Home = () => {
                             setErrorMessage("No TFT information available for this player");
                         }
                         console.log(newStats);
-                        dispatch(setStats(newStats));               
+                        dispatch(setStats(newStats));
+                        dispatch(setLoading(false));               
                     } 
                 } 
         } catch (error) {
