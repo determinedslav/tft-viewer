@@ -1,4 +1,4 @@
-import React, {useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from "react-redux";
 import PlayerCard from '../components/PlayerCard'
 import {setLoading} from '../redux/actions/loading';
@@ -10,17 +10,15 @@ const User = props => {
 
     const dispatch = useDispatch();
 
-    /*
     useEffect(() => {
-        dispatch(setLoading(true));
         console.log("loading");
         setTimeout(() =>{           
             dispatch(setLoading(false));
             console.log("done loading");
-        },2000);
+        },1500);
         // eslint-disable-next-line
       }, []);
-      */
+
     const click = () => {
         dispatch(setLoading(true));
         console.log("loading");
@@ -39,6 +37,14 @@ const User = props => {
             division={stats.division}
             onClick={() => click()}></PlayerCard>
             }
+
+        <div className="mt-3">
+            <div className="bg-light border rounded-top">
+				<div className="text-muted p-2 mb-1">
+                    Player Statistics
+				</div>
+			</div>
+        </div>
     </div>
 }
 
