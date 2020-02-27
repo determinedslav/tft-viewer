@@ -2,14 +2,14 @@ import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from "react-redux";
 import PlayerCard from '../components/PlayerCard'
 import {setLoading} from '../redux/actions/loading';
-import {setHistory} from '../redux/actions/history';
+import {setMatch} from '../redux/actions/match';
 import API from '../constants/API';
 import Remote from '../remote';
 
 const Match = props => {
     const stats = useSelector(state => state.stats[0]);
     const player = useSelector(state => state.player);
-    const history = useSelector(state => state.history);
+    const match = useSelector(state => state.history);
     const isLoading = useSelector(state => state.loading);
 
     const dispatch = useDispatch();
@@ -24,12 +24,17 @@ const Match = props => {
 
     const getResponse = async () => {
         try{
-            const requestLink = API.protocol + API.europe + API.apiLink + API.matchesByPuuid + player.puuid + API.matchesParams + API.keyValue;
-            const responseHistory = await Remote.get(requestLink);
+            const requestHistoryLink = API.protocol + API.europe + API.apiLink + API.matchesByPuuid + player.puuid + API.matchesParams + API.keyValue;
+            const responseHistory = await Remote.get(requestHistoryLink);
             if(responseHistory && responseHistory.hasOwnProperty('data')){
-                const newHistory = responseHistory.data.map(item=> item);
-                console.log(newHistory);
-                dispatch(setHistory(newHistory));
+                responseHistory.data.map(async item=> {
+                    const requestMatchLink = API.protocol + API.europe + API.apiLink + API.matchByMatchId + item + API.key + API.keyValue;
+                    const responseMatch = await Remote.get(requestMatchLink);
+                    if(responseMatch && responseMatch.hasOwnProperty('data')){
+                        console.log(responseMatch.data);
+                    }
+                });
+                //dispatch(setHistory(newHistory));
                 dispatch(setLoading(false));               
             } 
         } catch (error) {
