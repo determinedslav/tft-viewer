@@ -31,10 +31,10 @@ const Match = props => {
                     const requestMatchLink = API.protocol + API.europe + API.apiLink + API.matchByMatchId + item + API.key + API.keyValue;
                     const responseMatch = await Remote.get(requestMatchLink);
                     if(responseMatch && responseMatch.hasOwnProperty('data')){
-                        console.log(responseMatch.data);
+                        //console.log(responseMatch.data.info.participants);
+                        console.log(dispatch(setMatch(responseMatch.data.info.participants)));
                     }
-                });
-                //dispatch(setHistory(newHistory));
+                });        
                 dispatch(setLoading(false));               
             } 
         } catch (error) {
@@ -48,6 +48,7 @@ const Match = props => {
         setTimeout(() =>{           
             dispatch(setLoading(false));
             console.log("done loading");
+            console.log(match);
         },2000);
     }
 
