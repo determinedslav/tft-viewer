@@ -2,22 +2,40 @@ import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from "react-redux";
 import PlayerCard from '../components/PlayerCard'
 import {setLoading} from '../redux/actions/loading';
+import {setHistory} from '../redux/actions/history';
+import API from '../constants/API';
+import Remote from '../remote';
 
 const Match = props => {
     const stats = useSelector(state => state.stats[0]);
     const player = useSelector(state => state.player);
+    const history = useSelector(state => state.history);
     const isLoading = useSelector(state => state.loading);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log("loading");
-        setTimeout(() =>{           
-            dispatch(setLoading(false));
-            console.log("done loading");
-        },1500);
+        if (!isLoading) {
+            dispatch(setLoading(true));
+            getResponse();
+        }
         // eslint-disable-next-line
       }, []);
+
+    const getResponse = async () => {
+        try{
+            const requestLink = API.protocol + API.europe + API.apiLink + API.matchesByPuuid + player.puuid + API.matchesParams + API.keyValue;
+            const responseHistory = await Remote.get(requestLink);
+            if(responseHistory && responseHistory.hasOwnProperty('data')){
+                const newHistory = responseHistory.data.map(item=> item);
+                console.log(newHistory);
+                dispatch(setHistory(newHistory));
+                dispatch(setLoading(false));               
+            } 
+        } catch (error) {
+            console.log(error);
+        } 
+    };
 
     const click = () => {
         dispatch(setLoading(true));

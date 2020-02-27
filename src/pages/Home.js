@@ -3,7 +3,7 @@ import {useDispatch} from "react-redux";
 import {setStats} from '../redux/actions/stats';
 import {setPlayer} from '../redux/actions/player';
 import {setLoading} from '../redux/actions/loading';
-import API from '../constants/API'
+import API from '../constants/API';
 import Remote from '../remote';
 
 const Home = () => {    
@@ -42,7 +42,8 @@ const Home = () => {
     const getResponse = async () => {
         setErrorMessage(" ");
         try{
-            const responseName = await Remote.get(API.protocol + region + API.apiLink + API.nameApi + name + API.key + API.keyValue);
+            const requestNameLink = API.protocol + region + API.apiLink + API.nameByName + name + API.key + API.keyValue;
+            const responseName = await Remote.get(requestNameLink);
             if(responseName && responseName.hasOwnProperty('data')){
                 const newPlayer =  {
                         region: regionFull,
@@ -54,7 +55,8 @@ const Home = () => {
                 console.log(newPlayer);
                 dispatch(setPlayer(newPlayer));    
                 setTimeout(() =>{},1000);
-                const responseStats = await Remote.get(API.protocol + region + API.apiLink + API.statsApi + responseName.data.id + API.key + API.keyValue);
+                const requestStatsLink = API.protocol + region + API.apiLink + API.statsBySummonerId + responseName.data.id + API.key + API.keyValue;
+                const responseStats = await Remote.get(requestStatsLink);
                     if(responseStats && responseStats.hasOwnProperty('data')){
                         const newStats = responseStats.data.map(item=>{
                             return {
