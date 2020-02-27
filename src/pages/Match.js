@@ -15,6 +15,7 @@ const Match = props => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(setLoading(false));
         if (!isLoading) {
             dispatch(setLoading(true));
             getResponse();
@@ -32,7 +33,7 @@ const Match = props => {
                     const responseMatch = await Remote.get(requestMatchLink);
                     if(responseMatch && responseMatch.hasOwnProperty('data')){
                         //console.log(responseMatch.data.info.participants);
-                        console.log(dispatch(setMatch(responseMatch.data.info.participants)));
+                        //console.log(dispatch(setMatch(responseMatch.data.info.participants)));
                     }
                 });        
                 dispatch(setLoading(false));               
@@ -53,21 +54,24 @@ const Match = props => {
     }
 
     return <div>
-        {isLoading ? <div>Currently loading</div> :
-            <PlayerCard name={player.name} 
-            region={player.region} 
-            level={player.level} 
-            rank={stats.rank} 
-            division={stats.division}
-            onClick={() => click()}></PlayerCard>
-            }
-
-        <div className="mt-3">
-            <div className="bg-light border rounded-top">
-				<div className="text-muted p-2 mb-1">
-                    Match history - showing 10 most recent games
-				</div>
-			</div>
+        <div className="row">
+            <div className="col-md-3">
+                {isLoading ? <div>Currently loading</div> :
+                    <PlayerCard name={player.name} 
+                    region={player.region} 
+                    level={player.level} 
+                    rank={stats.rank} 
+                    division={stats.division}
+                    onClick={() => click()}></PlayerCard>
+                    }
+            </div>
+            <div className="col-md-9">
+                <div className="bg-light border rounded-top">
+                    <div className="text-muted p-2 mb-1">
+                        Match history - showing 10 most recent games
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 }
