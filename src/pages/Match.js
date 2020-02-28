@@ -43,6 +43,10 @@ const Match = props => {
         } 
     };
 
+    const calculateWinRate = () => {
+        return (((stats.wins/stats.played) * 100).toFixed(2));
+    }
+
     const click = () => {
         dispatch(setLoading(true));
         console.log("loading");
@@ -62,6 +66,10 @@ const Match = props => {
                     level={player.level} 
                     rank={stats.rank} 
                     division={stats.division}
+                    lp={stats.lp}
+                    played={stats.played}
+                    wins={stats.wins}
+                    ratio={calculateWinRate()}
                     onClick={() => click()}></PlayerCard>
                     }
             </div>
