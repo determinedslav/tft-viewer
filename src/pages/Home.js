@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {useDispatch} from "react-redux";
 import {setStats} from '../redux/actions/stats';
 import {setPlayer} from '../redux/actions/player';
-import {setLoading} from '../redux/actions/loading';
 import API from '../constants/API';
 import Remote from '../remote';
 
@@ -59,6 +58,7 @@ const Home = () => {
                     if(responseStats && responseStats.hasOwnProperty('data')){
                         const newStats = responseStats.data.map(item=>{
                             return {
+                                hasStats : true,
                                 rank: item.tier,
                                 division: item.rank,
                                 wins: item.wins,
@@ -71,8 +71,7 @@ const Home = () => {
                             setErrorMessage("No TFT information available for this player");
                         }
                         console.log(newStats);
-                        dispatch(setStats(newStats));
-                        dispatch(setLoading(false));               
+                        dispatch(setStats(newStats));             
                     } 
                 } 
         } catch (error) {
