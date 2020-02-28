@@ -54,7 +54,6 @@ const Home = () => {
                     }
                 console.log(newPlayer);
                 dispatch(setPlayer(newPlayer));    
-                setTimeout(() =>{},1000);
                 const requestStatsLink = API.protocol + region + API.apiLink + API.statsBySummonerId + responseName.data.id + API.key + API.keyValue;
                 const responseStats = await Remote.get(requestStatsLink);
                     if(responseStats && responseStats.hasOwnProperty('data')){

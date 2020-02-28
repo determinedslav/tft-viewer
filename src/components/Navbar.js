@@ -26,7 +26,7 @@ const HeaderNavbar = (props) => {
                     exact 
                     to="/" 
                     activeClassName="active"
-                    >Home</NavLink>
+                    >Find Player</NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink 
@@ -40,7 +40,7 @@ const HeaderNavbar = (props) => {
                      tag={RRNavLink} 
                      to="/match" 
                      activeClassName="active"
-                    >Match History</NavLink>
+                    >Player Information</NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink 

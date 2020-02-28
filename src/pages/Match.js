@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from "react-redux";
 import PlayerCard from '../components/PlayerCard'
 import {setLoading} from '../redux/actions/loading';
@@ -12,10 +12,11 @@ const Match = props => {
     const match = useSelector(state => state.history);
     const isLoading = useSelector(state => state.loading);
 
+    //const [newMatch, setNewMatch] = useState({});
+
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setLoading(false));
         if (!isLoading) {
             dispatch(setLoading(true));
             getResponse();
@@ -32,9 +33,16 @@ const Match = props => {
                     const requestMatchLink = API.protocol + API.europe + API.apiLink + API.matchByMatchId + item + API.key + API.keyValue;
                     const responseMatch = await Remote.get(requestMatchLink);
                     if(responseMatch && responseMatch.hasOwnProperty('data')){
-                        //console.log(responseMatch.data.info.participants);
-                        //console.log(dispatch(setMatch(responseMatch.data.info.participants)));
+                        responseMatch.data.info.participants.map(item=> {
+                            if (item.puuid === player.puuid){
+                                const newMatch =  {
+                                    placement: item.placement
+                                }
+                                console.log(newMatch)
+                            }
+                        });
                     }
+
                 });        
                 dispatch(setLoading(false));               
             } 
