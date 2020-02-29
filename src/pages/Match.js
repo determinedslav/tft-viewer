@@ -22,7 +22,7 @@ const Match = props => {
             setTimeout(()=>{
             matches.sort(dynamicSort("dateTime"));
             dispatch(setMatch(matches));
-            dispatch(setLoading(false));  
+            dispatch(setLoading(false));
             },1500);       
         }
         // eslint-disable-next-line
@@ -42,6 +42,12 @@ const Match = props => {
                                 const newMatch =  {
                                     dateTime: responseMatch.data.info.game_datetime,
                                     placement: item.placement,
+                                    level: item.level,
+                                    lastRound: item.last_round,
+                                    playersEliminated: item.players_eliminated,
+                                    totalDamageToPlayers: item.total_damage_to_players,
+                                    traits: item.traits,
+                                    units: item.units,
                                 }
                                 matches.push(newMatch);
                             }
@@ -89,6 +95,7 @@ const Match = props => {
                             <div className="text-muted p-2 mb-1">
                                 Match history - showing 10 most recent games
                             </div>
+                            <button onClick = {() => console.log(match)}>Search</button>
                         </div>
                     </div>
                 </div>

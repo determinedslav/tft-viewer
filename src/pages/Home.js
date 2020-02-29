@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useDispatch} from "react-redux";
 import {setStats} from '../redux/actions/stats';
 import {setPlayer} from '../redux/actions/player';
+import {setLoading} from '../redux/actions/loading';
 import API from '../constants/API';
 import Remote from '../remote';
 
@@ -40,6 +41,7 @@ const Home = () => {
 
     const getResponse = async () => {
         setErrorMessage(" ");
+        dispatch(setLoading(true));
         try{
             const requestNameLink = API.protocol + region + API.apiLink + API.nameByName + name + API.key + API.keyValue;
             const responseName = await Remote.get(requestNameLink);

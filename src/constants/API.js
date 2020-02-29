@@ -3,7 +3,7 @@ export default {
     europe: "europe",
     apiLink: ".api.riotgames.com/tft/",
     key: "?api_key=",
-    keyValue: "RGAPI-ba618583-d1cf-4da1-bd89-a698a73d6fa1",
+    keyValue: "RGAPI-a556fef4-969d-46ee-a65c-49ac0f013823",
     nameByName: "summoner/v1/summoners/by-name/",
     statsBySummonerId: "league/v1/entries/by-summoner/",
     matchesByPuuid: "match/v1/matches/by-puuid/",
