@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {useSelector, useDispatch} from "react-redux";
+import {useSelector, /* useDispatch */} from "react-redux";
 import PlayerCard from '../components/PlayerCard'
-import {setLoading} from '../redux/actions/loading';
-import {setMatch} from '../redux/actions/match';
-import API from '../constants/API';
-import Remote from '../remote';
+//import {setLoading} from '../redux/actions/loading';
+//import {setMatch} from '../redux/actions/match';
+//import API from '../constants/API';
+//import Remote from '../remote';
 
 const Match = props => {
     const stats = useSelector(state => state.stats[0]);
@@ -12,22 +12,24 @@ const Match = props => {
     const match = useSelector(state => state.match);
     const isLoading = useSelector(state => state.loading);
 
-    const [matches] = useState([]);
+    //const [matches] = useState([]);
 
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
 
     useEffect(() => {
-        if (stats.hasStats) {
-            getResponse();
+        if (!isLoading) {
+            //getResponse();
             setTimeout(()=>{
-            matches.sort(dynamicSort("dateTime"));
-            dispatch(setMatch(matches));
-            dispatch(setLoading(false));
+            //matches.sort(dynamicSort("dateTime"));
+            //dispatch(setMatch(matches));
+            //dispatch(setLoading(false));
+            console.log("not loading");
             },1500);       
         }
         // eslint-disable-next-line
       }, []);
 
+    /*
     const getResponse = async () => {
         try{
             const requestHistoryLink = API.protocol + API.europe + API.apiLink + API.matchesByPuuid + player.puuid + API.matchesParams + API.keyValue;
@@ -59,7 +61,7 @@ const Match = props => {
             console.log(error);
         } 
     };
-
+    
     const dynamicSort = property => {
             var sortOrder = -1;
             if(property[0] === "-") {
@@ -71,6 +73,7 @@ const Match = props => {
                 return result * sortOrder;
             }
     }
+    */
 
     const calculateWinRate = () => {
         return (((stats.wins/stats.played) * 100).toFixed(2));
@@ -95,7 +98,11 @@ const Match = props => {
                             <div className="text-muted p-2 mb-1">
                                 Match history - showing 10 most recent games
                             </div>
-                            <button onClick = {() => console.log(match)}>Search</button>
+                            <ul className="list-group">
+                                {match.map(match => {
+                                    return <li id={match.dateTime} key={match.dateTime} className="list-group-item rounded-0">{match.placement}</li>
+                                })}
+                            </ul>
                         </div>
                     </div>
                 </div>

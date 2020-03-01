@@ -3,6 +3,7 @@ import {useDispatch} from "react-redux";
 import {setStats} from '../redux/actions/stats';
 import {setPlayer} from '../redux/actions/player';
 import {setLoading} from '../redux/actions/loading';
+import {setMatch} from '../redux/actions/match';
 import API from '../constants/API';
 import Remote from '../remote';
 
@@ -12,6 +13,8 @@ const Home = () => {
     const [regionFull, setRegionFull] = useState(' ');
     const [name, setName] = useState(' ');
     const [errorMessage, setErrorMessage] = useState(' ');
+
+    const [matches] = useState([]);
 
     const dispatch = useDispatch();
 
@@ -36,6 +39,12 @@ const Home = () => {
             setErrorMessage("Summoner names are between 4 and 16 symbols long");
         } else {
             getResponse();
+            setTimeout(()=>{
+                matches.sort(dynamicSort("dateTime"));
+                console.log(matches);
+                dispatch(setMatch(matches));
+                dispatch(setLoading(false));
+            },1500);  
         }
     }
 
@@ -74,6 +83,32 @@ const Home = () => {
                         }
                         console.log(newStats);
                         dispatch(setStats(newStats));             
+                    }
+                    const requestHistoryLink = API.protocol + API.europe + API.apiLink + API.matchesByPuuid + responseName.data.puuid + API.matchesParams + API.keyValue;
+                    const responseHistory = await Remote.get(requestHistoryLink);
+                    if(responseHistory && responseHistory.hasOwnProperty('data')){
+                        responseHistory.data.map(async item=> {
+                            const requestMatchLink = API.protocol + API.europe + API.apiLink + API.matchByMatchId + item + API.key + API.keyValue;
+                            const responseMatch = await Remote.get(requestMatchLink);
+                            if(responseMatch && responseMatch.hasOwnProperty('data')){
+                                responseMatch.data.info.participants.map(item=> {
+                                    if (item.puuid === responseName.data.puuid){
+                                        const newMatch =  {
+                                            dateTime: responseMatch.data.info.game_datetime,
+                                            queueId: responseMatch.data.info.queue_id,
+                                            placement: item.placement,
+                                            level: item.level,
+                                            lastRound: item.last_round,
+                                            playersEliminated: item.players_eliminated,
+                                            totalDamageToPlayers: item.total_damage_to_players,
+                                            traits: item.traits,
+                                            units: item.units,
+                                        }
+                                        matches.push(newMatch);
+                                    }
+                                });
+                            }
+                        });               
                     } 
                 } 
         } catch (error) {
@@ -81,6 +116,18 @@ const Home = () => {
             setErrorMessage("Failed to get stats");
         } 
     };
+
+    const dynamicSort = property => {
+        var sortOrder = -1;
+        if(property[0] === "-") {
+            sortOrder = 1;
+            property = property.substr(1);
+        }
+        return function (a,b) {
+            var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            return result * sortOrder;
+        }
+    }
 
     return ( 
         <div>
