@@ -100,7 +100,41 @@ const Match = props => {
                             </div>
                             <ul className="list-group">
                                 {match.map(match => {
-                                    return <li id={match.dateTime} key={match.dateTime} className="list-group-item rounded-0">{match.placement}</li>
+                                    return <li id={match.dateTime} key={match.dateTime} className="list-group-item rounded-0">
+                                        <div className="row">
+                                            <div className="col-1">
+                                                {match.placement}
+                                            </div>
+                                            <div className="col-9">
+                                                <div className="row">
+                                                    {match.units.map(match => {
+                                                        return <div className="col-1">
+                                                        <img className="border border-dark rounded" height="40" width="40" src= {"images/champions/" + match.character_id.substring(5, match.character_id.length) + ".JPG"} alt={match.character_id}/>
+                                                        </div>
+                                                    })}
+                                                </div>
+                                                <div className="row">
+                                                    {match.units.map(match => {
+                                                        return <div className="col-1 text-center">
+                                                            <span className="text-small text-center">{match.tier}</span>*
+                                                        </div>
+                                                    })}
+                                                </div>
+                                                <div className="row">
+                                                    {match.traits.map(match => {
+                                                        if (match.style > 0) {
+                                                            return <span className="ml-2">
+                                                                <img className="border border-light rounded bg-dark" height="20" width="20" src= {"images/traits/" + match.name + ".PNG"} alt={match.name}/>{match.num_units}
+                                                            </span>
+                                                        }
+                                                    })}
+                                                </div>
+                                            </div>
+                                            <div className="col-2">
+                                            <button className="btn btn-primary" onClick = {() => console.log("click")}>Details</button>
+                                            </div>
+                                        </div>
+                                    </li>
                                 })}
                             </ul>
                         </div>
