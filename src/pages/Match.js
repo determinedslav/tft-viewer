@@ -1,6 +1,7 @@
-import React, {useEffect, /* useState */} from 'react';
-import {useSelector, /* useDispatch */} from "react-redux";
+import React, {/* useEffect, useState */} from 'react';
+import {useSelector, useDispatch} from "react-redux";
 import PlayerCard from '../components/PlayerCard'
+import {setMatchIndex} from '../redux/actions/matchIndex';
 
 const Match = props => {
     const stats = useSelector(state => state.stats[0]);
@@ -8,18 +9,7 @@ const Match = props => {
     const match = useSelector(state => state.match);
     const isLoading = useSelector(state => state.loading);
 
-    useEffect(() => {
-        if (!isLoading) {
-            setTimeout(()=>{
-            console.log("not loading");
-            },1500);       
-        }
-        // eslint-disable-next-line
-      }, []);
-
-    const calculateWinRate = () => {
-        return (((stats.wins/stats.played) * 100).toFixed(2));
-    }
+    const dispatch = useDispatch();
 
     const dynamicSort = property => {
         var sortOrder = -1;
@@ -45,7 +35,7 @@ const Match = props => {
                         lp={stats.lp}
                         played={stats.played}
                         wins={stats.wins}
-                        ratio={calculateWinRate()}></PlayerCard>
+                        ratio={(((stats.wins/stats.played) * 100).toFixed(2))}></PlayerCard>
                     </div>
                     <div className="col-lg-9">
                         <div className="bg-light border rounded-top">
@@ -83,7 +73,7 @@ const Match = props => {
                                                 </div>
                                             </div>
                                             <div className="col-sm-2">
-                                            <button className="btn btn-primary" onClick = {() => console.log("click")}>Details</button>
+                                            <button className="btn btn-primary" onClick = {() => dispatch(setMatchIndex(i))}>Details</button>
                                             </div>
                                         </div>
                                     </li>

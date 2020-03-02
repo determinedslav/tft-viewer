@@ -2,6 +2,7 @@ import * as loadingReducers from './loading';
 import * as statsReducers from './stats';
 import * as playerReducers from './player';
 import * as matchReducers from './match';
+import * as matchIndexReducers from './matchIndex';
 import {combineReducers} from 'redux';
 
 export default combineReducers(Object.assign(
@@ -9,4 +10,5 @@ export default combineReducers(Object.assign(
     statsReducers,
     playerReducers,
     matchReducers,
+    matchIndexReducers,
 ));
