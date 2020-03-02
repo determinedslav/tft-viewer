@@ -91,6 +91,7 @@ const Home = () => {
                             const requestMatchLink = API.protocol + API.europe + API.apiLink + API.matchByMatchId + item + API.key + API.keyValue;
                             const responseMatch = await Remote.get(requestMatchLink);
                             if(responseMatch && responseMatch.hasOwnProperty('data')){
+                                // eslint-disable-next-line
                                 responseMatch.data.info.participants.map(item=> {
                                     if (item.puuid === responseName.data.puuid){
                                         const newMatch =  {
