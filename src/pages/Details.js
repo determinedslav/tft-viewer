@@ -31,6 +31,9 @@ const Details = props => {
                         <div className="text-muted p-2 mb-1">
                             Match Details
                         </div>
+                        <div className="bg-white border-left border-right">
+                            Specific game details
+                        </div>
                     </div>
                 </div>
             </div>
