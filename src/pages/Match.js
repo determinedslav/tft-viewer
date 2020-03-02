@@ -21,6 +21,18 @@ const Match = props => {
         return (((stats.wins/stats.played) * 100).toFixed(2));
     }
 
+    const dynamicSort = property => {
+        var sortOrder = -1;
+        if(property[0] === "-") {
+            sortOrder = 1;
+            property = property.substr(1);
+        }
+        return function (a,b) {
+            var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            return result * sortOrder;
+        }
+    }
+
     return <div>
             {isLoading ? <div>Currently loading</div> :
                 <div className="row">
@@ -42,6 +54,8 @@ const Match = props => {
                             </div>
                             <ul className="list-group">
                                 {match.map(match => {
+                                    match.units.sort(dynamicSort("tier"));
+                                    match.traits.sort(dynamicSort("style"));
                                     return <li key={match.dateTime} className="list-group-item rounded-0">
                                         <div className="row">
                                             <div className="col-1">
