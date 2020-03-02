@@ -1,5 +1,6 @@
 import React, {/* useEffect, useState */} from 'react';
 import {useSelector, useDispatch} from "react-redux";
+import LoadingSplash from '../components/LoadingSplash'
 import PlayerCard from '../components/PlayerCard'
 import {setMatchIndex} from '../redux/actions/matchIndex';
 
@@ -24,7 +25,7 @@ const Match = props => {
     }
 
     return <div>
-            {isLoading ? <div>Currently loading</div> :
+            {isLoading ? <LoadingSplash></LoadingSplash> :
                 <div className="row">
                     <div className="col-lg-3">
                         <PlayerCard name={player.name} 

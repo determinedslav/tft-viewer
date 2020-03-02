@@ -9,7 +9,7 @@ import {
 } from 'reactstrap';
 import { NavLink as RRNavLink } from 'react-router-dom';
 
-const HeaderNavbar = (props) => {
+const HeaderNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
@@ -27,13 +27,6 @@ const HeaderNavbar = (props) => {
                     to="/" 
                     activeClassName="active"
                     >Find Player</NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink 
-                     tag={RRNavLink} 
-                     to="/user" 
-                     activeClassName="active"
-                    >Player Statistics</NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink 
