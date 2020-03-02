@@ -36,7 +36,7 @@ const Match = props => {
     return <div>
             {isLoading ? <div>Currently loading</div> :
                 <div className="row">
-                    <div className="col-md-3">
+                    <div className="col-lg-3">
                         <PlayerCard name={player.name} 
                         region={player.region} 
                         level={player.level} 
@@ -47,32 +47,27 @@ const Match = props => {
                         wins={stats.wins}
                         ratio={calculateWinRate()}></PlayerCard>
                     </div>
-                    <div className="col-md-9">
+                    <div className="col-lg-9">
                         <div className="bg-light border rounded-top">
                             <div className="text-muted p-2 mb-1">
                                 Match history - showing 10 most recent games
                             </div>
                             <ul className="list-group">
-                                {match.map(match => {
+                                {match.map((match, i) => {
                                     match.units.sort(dynamicSort("tier"));
                                     match.traits.sort(dynamicSort("style"));
-                                    return <li key={match.dateTime} className="list-group-item rounded-0">
+                                    return <li key={i} className="list-group-item border-left-0 border-right-0 border-top border-bottom rounded-0">
+                                        {match.queueId === 1100 ? <div className ="font-weight-bold mb-2 ml-1">Ranked</div> : <div className ="font-weight-bold mb-2 ml-1">Normal</div>}
                                         <div className="row">
-                                            <div className="col-1">
+                                            <div className="display-4 col-sm-1">
                                                 {match.placement}
                                             </div>
-                                            <div className="col-9">
+                                            <div className="col-sm-9">
                                                 <div className="row">
                                                     {match.units.map((units, i) => {
                                                         return <div key={i} className="col-1">
                                                         <img className="border border-dark rounded" height="40" width="40" src= {"images/champions/" + units.character_id.substring(5, units.character_id.length) + ".JPG"} alt={units.character_id}/>
-                                                        </div>
-                                                    })}
-                                                </div>
-                                                <div className="row">
-                                                    {match.units.map((units, i) => {
-                                                        return <div key={i} className="col-1 text-center">
-                                                            <span className="text-small text-center">{units.tier}</span>*
+                                                        <div><span className="">{units.tier}</span><span className="font-weight-bold">*</span></div>
                                                         </div>
                                                     })}
                                                 </div>
@@ -87,7 +82,7 @@ const Match = props => {
                                                     })}
                                                 </div>
                                             </div>
-                                            <div className="col-2">
+                                            <div className="col-sm-2">
                                             <button className="btn btn-primary" onClick = {() => console.log("click")}>Details</button>
                                             </div>
                                         </div>
