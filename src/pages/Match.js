@@ -56,7 +56,7 @@ const Match = props => {
                                             <div className="col-sm-9">
                                                 <div className="row">
                                                     {match.units.map((units, i) => {
-                                                        return <div key={i} className="col-1">
+                                                        return <div key={i} className="col-md-1 col-sm-2 col-3">
                                                         <img className="border border-dark rounded" height="40" width="40" src= {"images/champions/" + units.character_id.substring(5, units.character_id.length) + ".JPG"} alt={units.character_id}/>
                                                         <div><span className="">{units.tier}</span><span className="font-weight-bold">*</span></div>
                                                         </div>

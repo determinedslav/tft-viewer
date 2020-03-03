@@ -2,23 +2,7 @@ import React from 'react';
 
 const PlayerCard = props=> {
     return (
-        /*
-        <div className="align-items-center bg-light border rounded p-2">
-            <div>
-                <span>{props.name}</span>
-                <span className="text-muted">#{props.region}</span>
-            </div>
-            <div>
-                <span className="font-weight-bold">Level:{props.level}</span>
-            </div>
-            <div>
-                <span className="font-weight-bold">{props.rank}&nbsp;{props.division}</span>
-            </div>
-        </div>
-        */
-        //////
-
-        <div className="p-2 bg-white border rounded">
+        <div className="p-2 mb-3 bg-white border rounded">
             <div className="text-center">
                 <div>
                     <span className="font-weight-bold">{props.name}</span>
