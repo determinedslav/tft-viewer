@@ -1,0 +1,48 @@
+.tier1 {
+  color: #804a00;
+}
+.tier2 {
+  color: #6c7a86;
+}
+.tier3 {
+  color: #d4af37;
+}
+
+.traitTier1 {
+  background-color: #804a00;
+}
+.traitTier2 {
+  background-color: #6c7a86;
+}
+.traitTier3 {
+  background-color: #d4af37;
+}
+.traitTier4 {
+  background-color: #fee2f8;
+  background-image: linear-gradient(315deg, #fee2f8 0%, #dcf8ef 74%);  
+}
+
+.rarity0 {
+  border: 1px solid;
+  border-color: gray;
+}
+.rarity1 {
+  border: 1px solid;
+  border-color: green;
+}
+.rarity2 {
+  border: 1px solid;
+  border-color: blue;
+}
+.rarity3 {
+  border: 1px solid;
+  border-color: purple;
+}
+.rarity4 {
+  border: 1px solid;
+  border-color: gold;
+}
+.rarity5 {
+  border: 1px solid;
+  border-color: pink;
+}

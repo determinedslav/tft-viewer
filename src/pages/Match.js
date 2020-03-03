@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from "react-redux";
 import LoadingSplash from '../components/LoadingSplash'
 import PlayerCard from '../components/PlayerCard'
 import {setMatchIndex} from '../redux/actions/matchIndex';
+import '../assets/css/tiers.css';
 
 const Match = props => {
     const stats = useSelector(state => state.stats[0]);
@@ -11,6 +12,19 @@ const Match = props => {
     const isLoading = useSelector(state => state.loading);
 
     const dispatch = useDispatch();
+
+    const getUnitTier = (value) => {
+        switch(value) {
+            case 1:
+                return <div className="font-weight-bold text-center tier1">*</div>
+            case 2:
+                return <div className="font-weight-bold text-center tier2">**</div>
+            case 3:
+                 return <div className="font-weight-bold text-center tier3">***</div>
+            default:
+              return 'Error';
+          }
+    };
 
     const dynamicSort = property => {
         var sortOrder = -1;
@@ -54,12 +68,21 @@ const Match = props => {
                                                 {match.placement}
                                             </div>
                                             <div className="col-sm-9">
-                                                <div className="row">
+                                                <div className="row ml-0">
                                                     {match.units.map((units, i) => {
-                                                        return <div key={i} className="col-md-1 col-sm-2 col-3">
-                                                        <img className="border border-dark rounded" height="40" width="40" src= {"images/champions/" + units.character_id.substring(5, units.character_id.length) + ".JPG"} alt={units.character_id}/>
-                                                        <div><span className="">{units.tier}</span><span className="font-weight-bold">*</span></div>
+                                                        return <div key={i} className="d-flex flex-row">
+                                                        <div>
+                                                            {getUnitTier(units.tier)}
+                                                            <img className={"rounded rarity" + units.rarity} height="52" width="52" src= {"images/champions/" + units.character_id.substring(5, units.character_id.length) + ".JPG"} alt={units.character_id}/>
+                                                            <div className="row ml-0">
+                                                                {units.items.map((item, i) => {
+                                                                    return  <div key={i} className="d-flex flex-row">
+                                                                        <img className="border border-dark rounded" height="17" width="17" src= {"images/items/" + item + ".png"} alt={item}/>
+                                                                    </div>
+                                                                })}
+                                                            </div>
                                                         </div>
+                                                    </div>
                                                     })}
                                                 </div>
                                                 <div className="row">
@@ -67,7 +90,7 @@ const Match = props => {
                                                     match.traits.map((traits, i) => {
                                                         if (traits.style > 0) {
                                                             return <span key={i} className="ml-2">
-                                                                <img className="border border-light rounded bg-dark" height="20" width="20" src= {"images/traits/" + traits.name + ".PNG"} alt={traits.name}/>{traits.num_units}
+                                                                <img className={"rounded traitTier" + traits.style}  height="20" width="20" src= {"images/traits/" + traits.name + ".PNG"} alt={traits.name}/>{traits.num_units}
                                                             </span>
                                                         }
                                                     })}

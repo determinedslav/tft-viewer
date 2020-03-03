@@ -34,15 +34,17 @@ const Details = props => {
                         <div className="bg-white border">
                             <div className="row">
                                 {match.units.map((units, i) => {
-                                    return <div key={i} className="col-md-1 col-sm-2 col-3">
-                                        <div><span className="">{units.tier}</span><span className="font-weight-bold">*</span></div>
-                                        <img className="border border-dark rounded" height="50" width="50" src= {"images/champions/" + units.character_id.substring(5, units.character_id.length) + ".JPG"} alt={units.character_id}/>
-                                        <div className="row">
-                                            {units.items.map((item, i) => {
-                                                return  <div key={i} className="col">
-                                                    <img className="border border-dark rounded" height="15" width="15" src= {"images/items/" + item + ".png"} alt={item}/>
-                                                </div>
-                                            })}
+                                    return <div key={i} className="d-flex flex-row">
+                                        <div>
+                                            <div><span className="">{units.tier}</span><span className="font-weight-bold">*</span></div>
+                                            <img className="border border-dark rounded" height="50" width="50" src= {"images/champions/" + units.character_id.substring(5, units.character_id.length) + ".JPG"} alt={units.character_id}/>
+                                            <div className="row ml-1">
+                                                {units.items.map((item, i) => {
+                                                    return  <div key={i} className="d-flex flex-row">
+                                                        <img className="border border-dark rounded" height="14" width="14" src= {"images/items/" + item + ".png"} alt={item}/>
+                                                    </div>
+                                                })}
+                                            </div>
                                         </div>
                                     </div>
                                 })}
