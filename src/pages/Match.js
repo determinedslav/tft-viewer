@@ -39,7 +39,7 @@ const Match = props => {
     }
 
     return <div>
-            {isLoading ? <LoadingSplash></LoadingSplash> :
+            {!player.isSet ? <LoadingSplash message="Select a player to view information"></LoadingSplash> : isLoading ? <LoadingSplash message="Loading..."></LoadingSplash> :
                 <div className="row">
                     <div className="col-lg-3">
                         <PlayerCard name={player.name} 

@@ -1,10 +1,10 @@
 import React from 'react';
 
-const LoadingSplash = ()=> {
+const LoadingSplash = props => {
     return (
         <div className="text-center">
             <img className="img-fluid w-50 mx-auto d-block" src= "images/splash.png" alt="Loading..."/> 
-            <div className="font-weight-bold"> Loading...</div> 
+            <div className="font-weight-bold">{props.message}</div> 
         </div>
         );
     }

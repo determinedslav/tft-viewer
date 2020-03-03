@@ -56,6 +56,7 @@ const Home = () => {
             const responseName = await Remote.get(requestNameLink);
             if(responseName && responseName.hasOwnProperty('data')){
                 const newPlayer =  {
+                        isSet: true,
                         region: regionFull,
                         name: responseName.data.name,
                         level: responseName.data.summonerLevel,
