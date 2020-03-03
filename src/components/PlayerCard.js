@@ -19,6 +19,7 @@ const PlayerCard = props=> {
                 </div>
             </div>
             <div className="mt-3 p-2">
+                <div className="text-center font-weight-bold mb-3 mt-2">Ranked statistics</div>
                 <div className="border-bottom mb-2">
                     <span className="font-weight-bolder">Games played&nbsp;</span><span className="float-right">{props.played}</span>
                 </div>

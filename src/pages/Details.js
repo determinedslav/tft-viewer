@@ -1,5 +1,5 @@
 import React from 'react';
-import {useSelector, useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
 import LoadingSplash from '../components/LoadingSplash'
 import PlayerCard from '../components/PlayerCard'
 import '../assets/css/tiers.css';
@@ -10,8 +10,6 @@ const Details = props => {
     const player = useSelector(state => state.player);
     const match = useSelector(state => state.match[matchIndex]);
     const isLoading = useSelector(state => state.loading);
-
-    const dispatch = useDispatch();
 
     const getUnitTier = (value) => {
         switch(value) {
@@ -45,7 +43,11 @@ const Details = props => {
                         <div className="text-muted p-2 mb-1">
                             Match Details
                         </div>
-                        <div className="bg-white border">
+                        <div className="bg-white border p-4">
+                            {match.queueId === 1100 ? <div className ="font-weight-bold text-center mb-2 ml-1">Ranked Game</div> : <div className ="font-weight-bold text-center mb-2 ml-1">Normal Game</div>}
+                            <div className={"display-4 rounded p-1 text-center placement"+match.placement}>
+                                {match.placement}
+                            </div>
                             <div className="row ml-0">
                                 {match.units.map((units, i) => {
                                     return <div key={i} className="d-flex flex-row">
@@ -63,15 +65,29 @@ const Details = props => {
                                 </div>
                                 })}
                             </div>
-                            <div className="row">
+                            <div className="row mt-1">
                                 {// eslint-disable-next-line
                                 match.traits.map((traits, i) => {
-                                    if (traits.style > 0) {
-                                        return <span key={i} className="ml-2">
-                                            <img className={"rounded traitTier" + traits.style}  height="20" width="20" src= {"images/traits/" + traits.name + ".PNG"} alt={traits.name}/>{traits.num_units}
-                                        </span>
-                                    }
+                                    return <span key={i} className="ml-2">
+                                        <img className={"rounded traitTier" + traits.style}  height="20" width="20" src= {"images/traits/" + traits.name + ".PNG"} alt={traits.name}/>{traits.num_units}
+                                    </span>
                                 })}
+                            </div>
+                            <div className="row mb-1 mt-4 border-bottom">
+                                <div className="col-md-6 mb-2">
+                                    Round reached: {match.lastRound}
+                                </div>
+                                <div className="col-md-6 mb-2">
+                                    Level reached: {match.level}
+                                </div>
+                            </div>
+                            <div className="row mb-1 mt-4 border-bottom">
+                                <div className="col-md-6 mb-2">
+                                    Number of player eleminated: {match.playersEliminated}
+                                </div>
+                                <div className="col-md-6 mb-2">
+                                    Total damage dealt to players: {match.totalDamageToPlayers}
+                                </div>
                             </div>
                         </div>
                     </div>

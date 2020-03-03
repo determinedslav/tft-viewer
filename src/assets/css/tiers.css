@@ -7,7 +7,9 @@
 .tier3 {
   color: #d4af37;
 }
-
+.traitTier0 {
+  background-color: darkslategray;
+}
 .traitTier1 {
   background-color: #804a00;
 }

@@ -85,7 +85,7 @@ const Match = props => {
                                                     </div>
                                                     })}
                                                 </div>
-                                                <div className="row">
+                                                <div className="row mt-1">
                                                     {// eslint-disable-next-line
                                                     match.traits.map((traits, i) => {
                                                         if (traits.style > 0) {
@@ -97,7 +97,7 @@ const Match = props => {
                                                 </div>
                                             </div>
                                             <div className="col-sm-2">
-                                            <button className="btn btn-primary" onClick = {() => dispatch(setMatchIndex(i))}>Details</button>
+                                                <button className="btn btn-primary mt-3 float-right" onClick = {() => dispatch(setMatchIndex(i))}>Details</button>
                                             </div>
                                         </div>
                                     </li>
