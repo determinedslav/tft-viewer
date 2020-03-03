@@ -15,7 +15,7 @@ const HeaderNavbar = () => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <Navbar color="dark" dark expand="md">
+    <Navbar className="sticky-top" color="dark" dark expand="md">
         <div className="container">
             <NavbarToggler onClick={toggle} />
             <Collapse isOpen={isOpen} navbar>

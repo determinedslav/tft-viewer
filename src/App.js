@@ -11,7 +11,6 @@ import thunk from "redux-thunk";
 
 import './assets/styles.scss';
 import Home from './pages/Home';
-import User from './pages/User';
 import Match from './pages/Match';
 import Details from './pages/Details';
 import Navbar from './components/Navbar';
@@ -43,11 +42,6 @@ function App() {
             <Route path="/" exact>
               <Layout>
                 <Home/>
-              </Layout>
-            </Route>
-            <Route path="/user">
-              <Layout>
-                <User/>
               </Layout>
             </Route>
             <Route path="/match">
