@@ -1,18 +1,21 @@
 import React from 'react';
 import {useSelector, useDispatch} from "react-redux";
+import {useHistory} from "react-router-dom";
 import LoadingSplash from '../components/LoadingSplash'
 import PlayerCard from '../components/PlayerCard'
 import {setMatchIndex} from '../redux/actions/matchIndex';
 import '../assets/css/tiers.css';
 
-const Match = props => {
+const Match = () => {
     const stats = useSelector(state => state.stats[0]);
     const player = useSelector(state => state.player);
     const match = useSelector(state => state.match);
     const isLoading = useSelector(state => state.loading);
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
+    //Checks the unit's tier and returns the coresponding star design
     const getUnitTier = (value) => {
         switch(value) {
             case 1:
@@ -26,6 +29,12 @@ const Match = props => {
           }
     };
 
+    //Changes the currently selected match index and redirects to the details page
+    const redirectToDetails = (index) => {
+        dispatch(setMatchIndex(index))
+        history.push('/details');
+    }
+
     const dynamicSort = property => {
         var sortOrder = -1;
         if(property[0] === "-") {
@@ -38,8 +47,14 @@ const Match = props => {
         }
     }
 
+    //Match page render
     return <div>
-            {!player.isSet ? <LoadingSplash message="Select a player to view information"></LoadingSplash> : isLoading ? <LoadingSplash message="Loading..."></LoadingSplash> :
+            {
+            //No player have been found yet or found player does not have tft data
+            stats === undefined || stats.isSet === false ? <LoadingSplash message="Select a player to view information"></LoadingSplash> : 
+            //Loading has been set to true
+            isLoading ? <LoadingSplash message="Loading..."></LoadingSplash> :
+            //Loading has been set to false
                 <div className="row">
                     <div className="col-lg-3">
                         <PlayerCard name={player.name} 
@@ -97,7 +112,7 @@ const Match = props => {
                                                 </div>
                                             </div>
                                             <div className="col-sm-2">
-                                                <button className="btn btn-primary mt-3 float-right" onClick = {() => dispatch(setMatchIndex(i))}>Details</button>
+                                                <button className="btn btn-primary mt-3 float-right" onClick = {() => redirectToDetails(i)}>Details</button>
                                             </div>
                                         </div>
                                     </li>

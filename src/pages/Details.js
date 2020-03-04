@@ -4,13 +4,14 @@ import LoadingSplash from '../components/LoadingSplash'
 import PlayerCard from '../components/PlayerCard'
 import '../assets/css/tiers.css';
 
-const Details = props => {
+const Details = () => {
     const matchIndex = useSelector(state => state.matchIndex);
     const stats = useSelector(state => state.stats[0]);
     const player = useSelector(state => state.player);
     const match = useSelector(state => state.match[matchIndex]);
     const isLoading = useSelector(state => state.loading);
 
+    //Checks the unit's tier and returns the coresponding star design
     const getUnitTier = (value) => {
         switch(value) {
             case 1:
@@ -24,8 +25,16 @@ const Details = props => {
           }
     };
 
+    //Details page render
     return <div>
-        {!player.isSet ? <LoadingSplash message="Select a player to view information"></LoadingSplash> : matchIndex === ' ' ? <LoadingSplash message="Select a match to view information"></LoadingSplash> : isLoading ? <LoadingSplash message="Loading..."></LoadingSplash>:
+        {
+        //No player have been found yet or found player does not have tft data
+        stats === undefined || stats.isSet === false ? <LoadingSplash message="Select a player to view information"></LoadingSplash> : 
+        //No match has been selected yet
+        matchIndex === ' ' ? <LoadingSplash message="Select a match to view details"></LoadingSplash> : 
+        //Loading has been set to true
+        isLoading ? <LoadingSplash message="Loading..."></LoadingSplash>:
+        //Loading has been set to false
             <div className="row">
                 <div className="col-lg-3">
                     <PlayerCard name={player.name} 

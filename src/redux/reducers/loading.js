@@ -1,6 +1,6 @@
 import * as types from '../types';
 
-export function loading (state = true, action){
+export function loading (state = false, action){
     switch (action.type){
         case types.LOADING_STATS:
             return action.payload;

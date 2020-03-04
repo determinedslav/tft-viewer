@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
-import {useDispatch} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
+import { useHistory } from "react-router-dom";
+import LoadingSplash from '../components/LoadingSplash'
 import {setStats} from '../redux/actions/stats';
 import {setPlayer} from '../redux/actions/player';
 import {setLoading} from '../redux/actions/loading';
@@ -17,8 +19,12 @@ const Home = () => {
 
     const [matches] = useState([]);
 
-    const dispatch = useDispatch();
+    const isLoading = useSelector(state => state.loading);
 
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    //Return the region's abbreviation based on the region's id
     const setRegionState = (value) => {
         setRegion(value);
         switch(value) {
@@ -39,39 +45,45 @@ const Home = () => {
         } else if (name.length < 4 || name.length > 16) {
             setErrorMessage("Summoner names are between 4 and 16 symbols long");
         } else {
+            dispatch(setLoading(true));
             getResponse();
+            //Allows the application enough time to sort the matches properly
             setTimeout(()=>{
+                //Sorts all found matches by descending date before dispatching
                 matches.sort(dynamicSort("dateTime"));
                 console.log(matches);
-                dispatch(setMatchIndex(' '));
                 dispatch(setMatch(matches));
+                //Removes match index from potential previous player statistics viewed
+                dispatch(setMatchIndex(' '));
                 dispatch(setLoading(false));
             },1500);  
         }
     }
 
+    //Executes all API requests for the application
     const getResponse = async () => {
         setErrorMessage(" ");
         dispatch(setLoading(true));
         try{
+            //Calls the getSummonerByName API  
             const requestNameLink = API.protocol + region + API.apiLink + API.nameByName + name + API.key + API.keyValue;
             const responseName = await Remote.get(requestNameLink);
             if(responseName && responseName.hasOwnProperty('data')){
                 const newPlayer =  {
-                        isSet: true,
                         region: regionFull,
                         name: responseName.data.name,
                         level: responseName.data.summonerLevel,
                         id: responseName.data.id,
                         puuid: responseName.data.puuid,
                     }
-                dispatch(setPlayer(newPlayer));    
+                //Sets the currently found player
+                dispatch(setPlayer(newPlayer));
+                //Calls the getStatsBySummonerId API     
                 const requestStatsLink = API.protocol + region + API.apiLink + API.statsBySummonerId + responseName.data.id + API.key + API.keyValue;
                 const responseStats = await Remote.get(requestStatsLink);
                     if(responseStats && responseStats.hasOwnProperty('data')){
                         const newStats = responseStats.data.map(item=>{
                             return {
-                                hasStats : true,
                                 rank: item.tier,
                                 division: item.rank,
                                 wins: item.wins,
@@ -82,12 +94,16 @@ const Home = () => {
                         });
                         if (responseStats.data.length === 0) {
                             setErrorMessage("No TFT information available for this player");
+                            dispatch(setLoading(false));
                         }
+                        //Sets the currently found TFT information about the previously set player
                         dispatch(setStats(newStats));             
                     }
+                    //Calls the getMatchesByPuuid APi
                     const requestHistoryLink = API.protocol + API.europe + API.apiLink + API.matchesByPuuid + responseName.data.puuid + API.matchesParams + API.keyValue;
                     const responseHistory = await Remote.get(requestHistoryLink);
                     if(responseHistory && responseHistory.hasOwnProperty('data')){
+                        //For each found match id call the getMatchByMatchId API
                         responseHistory.data.map(async item=> {
                             const requestMatchLink = API.protocol + API.europe + API.apiLink + API.matchByMatchId + item + API.key + API.keyValue;
                             const responseMatch = await Remote.get(requestMatchLink);
@@ -106,16 +122,20 @@ const Home = () => {
                                             traits: item.traits,
                                             units: item.units,
                                         }
+                                        //Pushed each found match into an array
                                         matches.push(newMatch);
                                     }
                                 });
+                                //If all requests have been executed redirects user to the match history page
+                                history.push('/match');
                             }
                         });               
                     } 
                 } 
         } catch (error) {
             console.log(error);
-            setErrorMessage("Failed to get stats");
+            setErrorMessage("Failed to find a player with this name in this region; Player does not exist or some error has occured");
+            dispatch(setLoading(false));
         } 
     };
 
@@ -131,8 +151,9 @@ const Home = () => {
         }
     }
 
-    return ( 
-        <div>
+    //Home page render
+    return <div>
+        {isLoading ? <LoadingSplash message="Loading..."></LoadingSplash> :
             <form id="searchUser" onSubmit={(e) => e.preventDefault()}>
                 <div className="bg-light border rounded-top">
                     <div className="text-muted p-2">
@@ -166,8 +187,8 @@ const Home = () => {
                     </div>
                 </div>
             </form>
-        </div>
-    )
+        }
+    </div>
 }
 
 export default Home;
