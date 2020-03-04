@@ -40,7 +40,7 @@ const HeaderNavbar = () => {
                      tag={RRNavLink} 
                      to="/details" 
                      activeClassName="active"
-                    >Match Detais</NavLink>
+                    >Match Details</NavLink>
                 </NavItem>
             </Nav>
             </Collapse>
