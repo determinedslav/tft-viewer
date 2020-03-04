@@ -4,6 +4,7 @@ import {setStats} from '../redux/actions/stats';
 import {setPlayer} from '../redux/actions/player';
 import {setLoading} from '../redux/actions/loading';
 import {setMatch} from '../redux/actions/match';
+import {setMatchIndex} from '../redux/actions/matchIndex';
 import API from '../constants/API';
 import Remote from '../remote';
 
@@ -42,6 +43,7 @@ const Home = () => {
             setTimeout(()=>{
                 matches.sort(dynamicSort("dateTime"));
                 console.log(matches);
+                dispatch(setMatchIndex(' '));
                 dispatch(setMatch(matches));
                 dispatch(setLoading(false));
             },1500);  
@@ -63,7 +65,6 @@ const Home = () => {
                         id: responseName.data.id,
                         puuid: responseName.data.puuid,
                     }
-                console.log(newPlayer);
                 dispatch(setPlayer(newPlayer));    
                 const requestStatsLink = API.protocol + region + API.apiLink + API.statsBySummonerId + responseName.data.id + API.key + API.keyValue;
                 const responseStats = await Remote.get(requestStatsLink);
@@ -82,7 +83,6 @@ const Home = () => {
                         if (responseStats.data.length === 0) {
                             setErrorMessage("No TFT information available for this player");
                         }
-                        console.log(newStats);
                         dispatch(setStats(newStats));             
                     }
                     const requestHistoryLink = API.protocol + API.europe + API.apiLink + API.matchesByPuuid + responseName.data.puuid + API.matchesParams + API.keyValue;
