@@ -29,7 +29,8 @@ const Details = () => {
     return <div>
         {
         //No player have been found yet or found player does not have tft data
-        stats === undefined || stats.isSet === false ? <LoadingSplash message="Select a player to view information"></LoadingSplash> : 
+        stats === undefined || stats.isSet === false ? 
+        <LoadingSplash message="Select a player to view information"></LoadingSplash> : 
         //No match has been selected yet
         matchIndex === ' ' ? <LoadingSplash message="Select a match to view details"></LoadingSplash> : 
         //Loading has been set to true
@@ -62,7 +63,7 @@ const Details = () => {
                                     return <div key={i} className="d-flex flex-row">
                                     <div>
                                         {getUnitTier(units.tier)}
-                                        <img className={"rounded rarity" + units.rarity} height="52" width="52" src= {"images/champions/" + units.character_id.substring(5, units.character_id.length) + ".JPG"} alt={units.character_id}/>
+                                        <img className={"rounded rarity" + units.rarity} height="52" width="52" src= {"images/champions/" + units.character_id.substring(5, units.character_id.length) + ".png"} alt={units.character_id}/>
                                         <div className="row ml-0">
                                             {units.items.map((item, i) => {
                                                 return  <div key={i} className="d-flex flex-row">

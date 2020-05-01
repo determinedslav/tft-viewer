@@ -88,7 +88,7 @@ const Match = () => {
                                                         return <div key={i} className="d-flex flex-row">
                                                         <div>
                                                             {getUnitTier(units.tier)}
-                                                            <img className={"rounded rarity" + units.rarity} height="52" width="52" src= {"images/champions/" + units.character_id.substring(5, units.character_id.length) + ".JPG"} alt={units.character_id}/>
+                                                            <img className={"rounded rarity" + units.rarity} height="52" width="52" src= {"images/champions/" + units.character_id.substring(5, units.character_id.length) + ".png"} alt={units.character_id}/>
                                                             <div className="row ml-0">
                                                                 {units.items.map((item, i) => {
                                                                     return  <div key={i} className="d-flex flex-row">
