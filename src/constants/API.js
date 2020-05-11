@@ -3,7 +3,7 @@ export default {
     protocol: "https://",
     apiLink: ".api.riotgames.com/tft/",
     key: "?api_key=",
-    keyValue: "RGAPI-77b337db-d3f2-47ba-8b3c-ccb2a50eaa05",
+    keyValue: "RGAPI-5826ff7f-d998-45e9-8a94-99692058ac9b",
 
     //API server region constant
     europe: "europe",
